@@ -1,0 +1,19 @@
+type Mutation {
+  authUser(input: userLoginInput!): userAuth!
+  registerUser(input: userRegisterInput!): Boolean!
+}
+
+input userLoginInput {
+  userName: String!
+  password: String!
+}
+
+input userRegisterInput {
+  userName: String!
+  password: String!
+  email: String!
+}
+
+type userAuth {
+  token: String!
+}

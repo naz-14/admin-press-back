@@ -16,12 +16,24 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']>;
+  authUser: UserAuth;
   createUser?: Maybe<User>;
+  registerUser: Scalars['Boolean'];
+};
+
+
+export type MutationAuthUserArgs = {
+  input: UserLoginInput;
 };
 
 
 export type MutationCreateUserArgs = {
-  input: UserInput;
+  input: UserRegisterInput;
+};
+
+
+export type MutationRegisterUserArgs = {
+  input: UserRegisterInput;
 };
 
 export type Query = {
@@ -33,13 +45,29 @@ export type Query = {
 export type User = {
   __typename?: 'User';
   id: Scalars['Int'];
-  name: Scalars['String'];
-  money: Scalars['Int'];
+  userName: Scalars['String'];
 };
 
-export type UserInput = {
-  name: Scalars['String'];
-  money: Scalars['Int'];
+export type UserRegisterInput = {
+  userName: Scalars['String'];
+  password: Scalars['String'];
+  email: Scalars['String'];
+};
+
+export type UserAuth = {
+  __typename?: 'userAuth';
+  token: Scalars['String'];
+};
+
+export type UserLoginInput = {
+  userName: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type UserRegisterInput = {
+  userName: Scalars['String'];
+  password: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
@@ -113,27 +141,35 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Query: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  UserInput: UserInput;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  UserRegisterInput: UserRegisterInput;
+  userAuth: ResolverTypeWrapper<UserAuth>;
+  userLoginInput: UserLoginInput;
+  userRegisterInput: UserRegisterInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Mutation: {};
   String: Scalars['String'];
+  Boolean: Scalars['Boolean'];
   Query: {};
   User: User;
   Int: Scalars['Int'];
-  UserInput: UserInput;
-  Boolean: Scalars['Boolean'];
+  UserRegisterInput: UserRegisterInput;
+  userAuth: UserAuth;
+  userLoginInput: UserLoginInput;
+  userRegisterInput: UserRegisterInput;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  authUser?: Resolver<ResolversTypes['userAuth'], ParentType, ContextType, RequireFields<MutationAuthUserArgs, 'input'>>;
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  registerUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -143,8 +179,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  money?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  userName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserAuthResolvers<ContextType = any, ParentType extends ResolversParentTypes['userAuth'] = ResolversParentTypes['userAuth']> = {
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -152,5 +192,6 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  userAuth?: UserAuthResolvers<ContextType>;
 };
 

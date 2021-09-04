@@ -3,8 +3,9 @@ import sequelize from '../db/connection';
 
 interface UserAttributes {
   id: number;
-  name: string;
-  money: number;
+  userName: string;
+  password: string;
+  email: string;
 }
 
 interface UserCreationAttibutes extends Optional<UserAttributes, 'id'> {}
@@ -14,8 +15,9 @@ class User
   implements UserAttributes
 {
   public id!: number;
-  public name!: string;
-  public money!: number;
+  public userName!: string;
+  public password!: string;
+  public email!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -28,13 +30,19 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    userName: {
       type: DataTypes.STRING(50),
       allowNull: false,
+      unique: true,
     },
-    money: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    password: {
+      type: DataTypes.STRING,
       allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
   },
   {

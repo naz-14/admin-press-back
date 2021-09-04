@@ -2,6 +2,7 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import schema from './graphql/schemasMap';
 import sequelize from './db/connection';
+import Auth from './Auth';
 
 (async () => {
   try {
@@ -14,6 +15,7 @@ import sequelize from './db/connection';
   const app = express();
   const server = new ApolloServer({
     schema,
+    context: Auth
   });
   await server.start();
   server.applyMiddleware({ app, path: '/graphql' });
